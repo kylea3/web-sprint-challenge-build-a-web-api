@@ -1,6 +1,6 @@
 const express = require('express')
 const Action = require('./actions-model')
-const { validateUserId, validateBody, validateProject_Id } = require('./actions-middlware')
+const { validateActionId, validateBody, validateProject_Id } = require('./actions-middlware')
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
@@ -11,7 +11,7 @@ router.get('/', (req, res, next) => {
         .catch(next)
 })
 
-router.get('/:id', validateUserId, async (req, res, next) => {
+router.get('/:id', validateActionId, async (req, res, next) => {
     Action.get(req.params.id)
         .then(action  => {
             res.status(200).json(action)
@@ -28,12 +28,20 @@ router.post('/', validateBody, validateProject_Id, (req, res, next) => {
         .catch(next)
 })
 
-router.put('/:id', validateUserId, validateBody, (req, res, next) => {
+router.put('/:id', validateActionId, validateBody, (req, res, next) => {
     Action.insert(req.params.id, req.project)
         .then(action => {
             res.status(201).json(action)
         })
         .catch(next)
+})
+
+router.delete('/:id', validateActionId, async (req, res, next) => {
+    Action.remove(req.params.id)
+       .then(result => {
+           res.status(200).json( {"message": "succesfully deleted"} )
+       })
+       .catch(next)
 })
 
 router.use((err, req, res, next) => {

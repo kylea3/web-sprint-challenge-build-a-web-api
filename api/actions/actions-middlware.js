@@ -3,7 +3,7 @@
 const Action = require('./actions-model')
 const Project = require('../projects/projects-model')
 
-async function validateUserId(req, res, next) {
+async function validateActionId(req, res, next) {
     try {
         const action = await Action.get(req.params.id);
         if(!action) {
@@ -43,7 +43,7 @@ async function validateProject_Id(req, res, next) {
 
 
 module.exports = {
-    validateUserId,
+    validateActionId,
     validateBody,
     validateProject_Id
 }
