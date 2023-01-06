@@ -27,9 +27,14 @@ router.post('/', validateBody, (req, res, next) => {
             .catch(next)
     })
 
-router.put('/:id', validateUserId, (req, res, next) => {
-    const { description, name, completed } = req.body;
-
+router.put('/:id', validateUserId, validateBody, (req, res, next) => {
+        console.log(req.params.id)
+        console.log(req.project)
+        Project.insert(req.params.id, req.project)
+            .then(project => {
+                res.status(201).json(project)
+            })
+            .catch(next)
 })
 
 router.delete('/:id', (req, res, next) => {
