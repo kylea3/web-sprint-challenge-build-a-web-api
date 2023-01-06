@@ -1,6 +1,7 @@
 const express = require('express')
 const Project = require('./projects-model')
 const router = express.Router();
+const { validateUserId, validateBody } = require('./projects-middleware')
 // Write your "projects" router here!
 router.get('/', (req, res, next) => {
     Project.get()
@@ -10,35 +11,25 @@ router.get('/', (req, res, next) => {
         .catch(next)
 })
 
-router.get('/:id', async (req, res, next) => {
-    const id = await Project.get(req.params.id);
-    if(id) {
+router.get('/:id', validateUserId, async (req, res, next) => {
     Project.get(req.params.id)
         .then(project => {
             res.status(200).json(project)
         })
         .catch(next)
-    } else {
-        res.status(404).json({ "message": "There is no project with the given id" })
-    }
 })
 
-router.post('/', (req, res, next) => {
-    const { description, name, completed } = req.body;
-    if (!description || !name|| !completed ) {
-        res.status(400).json({ "message": "Need to include a completed, description, and name field"})
-    } else {
-        Project.insert({ description: description, name: name, completed: completed })
+router.post('/', validateBody, (req, res, next) => {
+        Project.insert(req.project)
             .then(project => {
                 res.status(201).json(project)
             })
             .catch(next)
-    }
-    
-})
+    })
 
-router.put('/:id', (req, res, next) => {
-    
+router.put('/:id', validateUserId, (req, res, next) => {
+    const { description, name, completed } = req.body;
+
 })
 
 router.delete('/:id', (req, res, next) => {
