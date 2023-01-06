@@ -15,4 +15,9 @@ const projectsRouter = require('./projects/projects-router')
 server.use('/api/projects', projectsRouter)
 server.use('/api/actions', actionsRouter)
 
+server.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).json({ message: 'There was an error with the server'})
+}) 
+
 module.exports = server;
