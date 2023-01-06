@@ -28,5 +28,17 @@ router.post('/', validateBody, validateProject_Id, (req, res, next) => {
         .catch(next)
 })
 
+router.put('/:id', validateUserId, validateBody, (req, res, next) => {
+    Action.insert(req.params.id, req.project)
+        .then(action => {
+            res.status(201).json(action)
+        })
+        .catch(next)
+})
+
+router.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).json({ message: 'There was an error with the project-router'})
+}) 
 
 module.exports = router;
