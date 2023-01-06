@@ -43,9 +43,13 @@ router.delete('/:id', validateUserId, async (req, res, next) => {
             .catch(next)
 })
 
-router.get('/:id/actions', (req, res, next) => {
-    
-})
+router.get('/:id/actions', validateUserId, (req, res, next) => {
+        Project.getProjectActions(req.params.id)
+            .then(action => {
+                res.status(200).json(action)
+            })
+            .catch(next)
+})  
 
 router.use((err, req, res, next) => {
     console.error(err);
