@@ -19,7 +19,7 @@ async function validateActionId(req, res, next) {
 
 function validateBody(req, res, next) {
     const { description, completed, notes, project_id } = req.body;
-    if (!description || !notes|| !completed || !project_id ) {
+    if (!description || !notes || !project_id ) {
         res.status(400).json({ "message": "Need to include a description, completed, notes, and project_id field"})
     } else {
         req.action = { description: description, notes: notes, completed: completed , project_id: project_id  };
