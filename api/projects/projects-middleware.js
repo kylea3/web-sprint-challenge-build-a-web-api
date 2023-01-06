@@ -18,9 +18,9 @@ async function validateUserId(req, res, next) {
 function validateBody(req, res, next) {
     const { description, name, completed } = req.body;
     if (!description || !name|| !completed ) {
-        res.status(400).json({ "message": "Need to include a completed, description, and name field"})
+        res.status(400).json({ "message": "Need to include a description and name field"})
     } else {
-        req.project = { description: description, name: name, completed: completed };
+        req.project = { description: description, name: name, completed: completed || false };
         next()
     }
 }

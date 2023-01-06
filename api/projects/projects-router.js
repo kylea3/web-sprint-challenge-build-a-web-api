@@ -28,8 +28,6 @@ router.post('/', validateBody, (req, res, next) => {
     })
 
 router.put('/:id', validateUserId, validateBody, (req, res, next) => {
-        console.log(req.params.id)
-        console.log(req.project)
         Project.insert(req.params.id, req.project)
             .then(project => {
                 res.status(201).json(project)
@@ -37,8 +35,12 @@ router.put('/:id', validateUserId, validateBody, (req, res, next) => {
             .catch(next)
 })
 
-router.delete('/:id', (req, res, next) => {
-    
+router.delete('/:id', validateUserId, async (req, res, next) => {
+         Project.remove(req.params.id)
+            .then(result => {
+                res.status(200).json( {"message": "succesfully deleted"} )
+            })
+            .catch(next)
 })
 
 router.get('/:id/actions', (req, res, next) => {
