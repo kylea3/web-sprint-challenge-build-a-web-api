@@ -29,7 +29,7 @@ router.post('/', validateBody, validateProject_Id, (req, res, next) => {
 })
 
 router.put('/:id', validateActionId, validateBody, (req, res, next) => {
-    Action.insert(req.params.id, req.project)
+    Action.update(req.params.id, req.project)
         .then(action => {
             res.status(201).json(action)
         })
