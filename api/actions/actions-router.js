@@ -20,7 +20,6 @@ router.get('/:id', validateActionId, async (req, res, next) => {
 })
 
 router.post('/', validateBody, validateProject_Id, (req, res, next) => {
-    console.log(req.action)
     Action.insert(req.action)
         .then(action => {
             res.status(201).json(action)

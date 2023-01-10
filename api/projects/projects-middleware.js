@@ -15,12 +15,22 @@ async function validateProjectId(req, res, next) {
           }
 }
 
+function validateBodyPut(req, res, next) {
+    const { description, name, completed } = req.body;
+    if (!description || !name || !completed) {
+        res.status(400).json({ "message": "Need to include a description, completed, and name field"})
+    } else {
+        req.project = { description: description, name: name, completed: completed === 'false' ? 0 : 1 };
+        next()
+    }
+}
+
 function validateBody(req, res, next) {
     const { description, name, completed } = req.body;
-    if (!description || !name|| !completed ) {
-        res.status(400).json({ "message": "Need to include a description and name field"})
+    if (!description || !name || !completed) {
+        res.status(400).json({ "message": "Need to include a description, completed, and name field"})
     } else {
-        req.project = { description: description, name: name, completed: completed || false };
+        req.project = { description: description, name: name, completed: completed };
         next()
     }
 }
@@ -28,5 +38,6 @@ function validateBody(req, res, next) {
 
 module.exports = {
     validateProjectId,
-    validateBody
+    validateBody,
+    validateBodyPut
 }
